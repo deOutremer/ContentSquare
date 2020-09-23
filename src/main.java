@@ -14,6 +14,8 @@ public class main {
         BufferedReader br = new BufferedReader(new FileReader(args[0]));
         try {
 
+            /* get the number of lines from the file in order to initiate the correct number of Mowers
+            * The first line is the size of the lawn. Then each 2 lines represent a Mower*/
             Path path = Paths.get(args[0]);
             int numOfMowers = (int) ((Files.lines(path).count()-1)/2);
             ExecutorService executor = Executors.newFixedThreadPool(numOfMowers);
@@ -22,11 +24,17 @@ public class main {
             if (lawnDimensions.length > 2) throw new badLawnInitException(line);
             Lawn lawn = new Lawn(Integer.parseInt(lawnDimensions[0]), Integer.parseInt(lawnDimensions[1]));
 
+            /* For each Mower, we check the integrity of the data, create the Mower and set it on its way
+            * Currently the Mowers are initialized sequentially, though each Mower might take a different time to complete it's tasks and they can work in parallel
+            * This might cause the order of the printouts to be different order than expected, but the final locations
+            * of the Mowers will still be correct. Removing this functionality is simple but this solution
+            * is better as the problem scales up. We can also add a mechanism to return the location by order if needed
+            * */
             for (int i = 0; i < numOfMowers; i++) {
                 String startLocation = br.readLine();
                 String movements = br.readLine();
                 String[] mowerLocation = startLocation.split(" ");
-                if (mowerLocation.length > 3 ||
+                if (mowerLocation.length > 3 || //Check data integrity
                         Integer.parseInt(mowerLocation[0]) > lawn.getLawnX() ||
                         Integer.parseInt(mowerLocation[0]) < 0 ||
                         Integer.parseInt(mowerLocation[1]) > lawn.getLawnX() ||
@@ -49,7 +57,7 @@ public class main {
         }
 
     }
-
+    /* A function to translate orientation to degrees */
     public static double convertFacing(String orientation) {
         if (orientation.equals("N")) return 0;
         if (orientation.equals("E")) return 90;

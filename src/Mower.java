@@ -12,7 +12,7 @@ public class Mower implements Runnable{
     void setMovements(String movements) {
         this.movements = movements;
     }
-
+    /* Perform the movements */
     public void run() {
 
         for (char movement : movements.toCharArray()) {

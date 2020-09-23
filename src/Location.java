@@ -16,11 +16,13 @@ public class Location {
         this.orientation = orientation;
     }
 
+    /* Turn the Mower to te correct orientation */
     public void turn (Swivel direction) {
         orientation = (direction == Swivel.L) ? (orientation - 90) % 360 : (orientation + 90) % 360;
         if (orientation < 0) orientation += 360;
     }
 
+    /* Update coordinates according to initial orientation */
     public void moveForward(Lawn lawn) {
         if (canMove(lawn))
         switch (getFacing()) {
@@ -99,6 +101,9 @@ public class Location {
         return 0;
     }
 
+    /* Check if the Mower is on the border of the Lawn, so that it wont
+    *move when the action asked of it will land it outside the Lawn
+    */
     private boolean canMove(Lawn lawn) {
         if ((x == lawn.getLawnX() && getFacing() == 'E') ||
                 (y == lawn.getLawnY() && getFacing() == 'N') ||
