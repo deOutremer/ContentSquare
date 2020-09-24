@@ -1,8 +1,10 @@
-public class Mower implements Runnable{
+import java.util.concurrent.Callable;
+
+public class Mower implements Callable<String>{
 
     private Location location;
     private Lawn lawn;
-    String movements;
+    private String movements;
 
     public Mower(Location location, Lawn lawn) {
         this.location = location;
@@ -13,7 +15,7 @@ public class Mower implements Runnable{
         this.movements = movements;
     }
     /* Perform the movements */
-    public void run() {
+    public String call() {
 
         for (char movement : movements.toCharArray()) {
             switch (movement) {
@@ -31,7 +33,8 @@ public class Mower implements Runnable{
                 }
             }
         }
-        System.out.println(getLocation().getLocationAsString());
+        //System.out.println(getLocation().getLocationAsString());
+        return getLocation().getLocationAsString();
     }
 
     public Location getLocation () {
