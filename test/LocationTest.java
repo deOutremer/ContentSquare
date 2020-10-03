@@ -34,7 +34,7 @@ public class LocationTest {
     @Test
     public void testMoveForward() {
 
-        Lawn lawn = new Lawn(5, 5);
+        Lawn lawn = new Lawn(5, 5, 1);
         Location testLocation = new Location(1, 2, 0.0);
         testLocation.moveForward(lawn);
         Assertions.assertTrue(testLocation.getLocationAsString().equals("1 3 N"));

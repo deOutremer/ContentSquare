@@ -3,12 +3,17 @@ import java.util.concurrent.Callable;
 public class Mower implements Callable<String>{
 
     private Location location;
+    private Location initialLocation;
     private Lawn lawn;
     private String movements;
+    private String error;
 
-    public Mower(Location location, Lawn lawn) {
+    public Mower(Location location, String movements, Lawn lawn) {
+        this.initialLocation = location;
         this.location = location;
         this.lawn = lawn;
+        this.error = "";
+        setMovements(movements);
     }
 
     void setMovements(String movements) {
@@ -31,10 +36,15 @@ public class Mower implements Callable<String>{
                     location.turn(Swivel.R);
                     break;
                 }
+                default: {
+                    this.location = initialLocation;
+                    this.error = "Invalid mower movement: '" + movements + "'. Mower reset to initial location: ";
+                    this.movements = "";
+                    break;
+                }
             }
         }
-        //System.out.println(getLocation().getLocationAsString());
-        return getLocation().getLocationAsString();
+        return error.concat(getLocation().getLocationAsString());
     }
 
     public Location getLocation () {
