@@ -16,6 +16,10 @@ public class Location {
         this.orientation = orientation;
     }
 
+    public Location() {
+
+    }
+
     /* Turn the Mower to te correct orientation */
     public void turn (Swivel direction) {
         orientation = (direction == Swivel.L) ? (orientation - 90) % 360 : (orientation + 90) % 360;
@@ -59,6 +63,12 @@ public class Location {
         this.x = x;
         this.y = y;
         this.orientation = orientation;
+    }
+
+    public void setBadLocation() {
+        this.x = Integer.MIN_VALUE;
+        this.y = Integer.MIN_VALUE;
+        this.orientation = 0.0;
     }
 
     private void moveXForward () {
